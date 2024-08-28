@@ -41,6 +41,7 @@ Statement
 | GanttTitle
 | DateFormat
 | Excludes
+| Includes
 | Section
 | Weekend
 | Weekday
@@ -51,8 +52,51 @@ Statement
 | ClickStatement
 ;
 
+DateFormat:
+  'dateFormat' format=DATE_FORMAT EOL;
+
+Task:
+    'task' taskTxt=ID ':' taskData=STRING EOL;
+
+GanttTitle:
+    'title' title=STRING EOL;
+
+Excludes:
+    'excludes' excludes=STRING EOL;
+
+Includes:
+    'includes' includes=STRING EOL;
+
+Section:
+    'section' section=STRING EOL;
+
+Weekend:
+    'weekday' weekend=WEEKEND;
+
+Weekday:
+    'weekday' weekday=WEEKDAY;
+
+AxisFormat:
+    'axisFormat' format=STRING EOL;
+
+Milestone:
+    'milestone' milestone=STRING EOL;
+
+TodayMarker:
+    'todayMarker' marker=STRING EOL;
+
+TopAxis:
+    'topAxis' TopAxis='true' EOL;
+
+ClickStatement:
+    'click' click=STRING
+    ('href' href=STRING | 'callbackName' callbackName=STRING | 'callbackArgs' callbackArgs=STRING)* EOL;
 
 
-terminal INT returns number: /[0-9]+(?=\s)/;
+
+
+terminal WEEKDAY: 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday';
+terminal WEEKEND: 'friday' | 'saturday';
+terminal DATE_FORMAT returns string: /[^#\n;]+/;
 terminal ID returns string: /\w([-\./\w]*[-\w])?/;
 terminal STRING: /"[^"]*"|'[^']*'/;
